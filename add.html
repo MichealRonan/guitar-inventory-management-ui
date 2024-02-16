@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Guitar</title>
+    <style>
+        body {
+            background-color: #cb943e;
+            margin: 0;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+        }
+
+        form {
+            background-color: #fff6e5;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 80px;
+        }
+        form input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        form button {
+            background: #f0c14b;
+            color: #333;
+            border: none;
+            padding: 10px 20px;
+
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .Input {
+            display: flex;
+            font-weight: bold;
+            gap: 1rem;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+        a {
+            text-decoration: none;
+            color: #000;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        a:last-child {
+            margin-bottom: 0;
+        }
+        #links {
+            display: flex;
+            justify-content: flex-start;
+            gap: 15px;
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="index.html">Guitar Inventory Management</a>
+    <div id="links">
+        <a href="add.html">Add</a>
+        <a href="search.html">Search</a>
+        <a href="about.html">About</a>
+    </div>
+
+</nav>
+
+<form id="guitarForm">
+    <div class="Input">
+        <label>Serial number:</label>
+        <input type="text" class="serialNumber" name="serialNumber" />
+    </div>
+
+    <div class="Input">
+        <label>Price:</label>
+        <input type="text" class="price" name="price" />
+    </div>
+
+    <div class="Input">
+        <label>Builder:</label>
+        <input type="text" class="builder" name="builder" />
+    </div>
+
+    <div class="Input">
+        <label>Model:</label>
+        <input type="text" class="model" name="model" />
+    </div>
+
+    <div class="Input">
+        <label>Type:</label>
+        <input type="text" class="type" name="type" />
+    </div>
+
+    <div class="Input">
+        <label>Back wood:</label>
+        <input type="text" class="backWood" name="backWood" />
+    </div>
+
+    <div class="Input">
+        <label>Top wood:</label>
+        <input type="text" class="topWood" name="topWood" />
+    </div>
+
+    <button type="button" onclick="addTheGuitar()">Add the guitar</button>
+</form>
+
+<script>
+    function addTheGuitar() {
+        var guitar = {
+            serialNumber: document.querySelector(".serialNumber").value,
+            price: document.querySelector(".price").value,
+            builder: document.querySelector(".builder").value,
+            model: document.querySelector(".model").value,
+            type: document.querySelector(".type").value,
+            backWood: document.querySelector(".backWood").value,
+            topWood: document.querySelector(".topWood").value,
+        };
+        alert("Guitar added: " + JSON.stringify(guitar));
+    }
+</script>
+</body>
+</html>

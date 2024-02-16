@@ -1,0 +1,206 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: #cb943e;
+            margin: 0;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #000;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        a:last-child {
+            margin-bottom: 0;
+        }
+        #links {
+            display: flex;
+            justify-content: flex-start;
+            gap: 15px;
+        }
+        form {
+            background-color: #fff6e5;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 80px;
+        }
+        form input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        form button {
+            background: #f0c14b;
+            color: #333;
+            border: none;
+            padding: 10px 20px;
+
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .Input {
+            display: flex;
+            font-weight: bold;
+            gap: 1rem;
+        }
+    </style>
+</head>
+<body>
+<body>
+
+<nav>
+    <a href="index.html">Guitar Inventory Management</a>
+    <div id="links">
+        <a href="add.html">Add</a>
+        <a href="search.html">Search</a>
+        <a href="about.html">About</a>
+    </div>
+
+</nav>
+
+<form id="form">
+    <div class="Input">
+        <label for="builder">Builder:</label>
+        <input type="text" id="builder" />
+    </div>
+    <div class="Input">
+        <label for="model">Model:</label>
+        <input type="text" id="model" />
+    </div>
+
+    <div class="Input">
+        <label for="type">Type:</label>
+        <input type="text" id="type" />
+    </div>
+    <div class="Input">
+        <label for="backWood">Back Wood:</label>
+        <input type="text" id="backWood" />
+    </div>
+    <div class="Input">
+        <label for="topWood">Top Wood:</label>
+        <input type="text" id="topWood" />
+    </div>
+    <button type="button" onclick="search(event)" class="formButton">Search</button>
+</form>
+
+<table>
+    <thead>
+    <tr>
+        <th>Serial number</th>
+        <th>Builder</th>
+        <th>Model</th>
+        <th>Type</th>
+        <th>Back wood</th>
+        <th>Top wood</th>
+        <th>Price</th>
+    </tr>
+    </thead>
+    <tbody id="searchResult"></tbody>
+</table>
+
+<script>
+    let guitars = [
+        {
+            serialNumber: 1,
+            builder: "Ryan",
+            model: "Model22",
+            type: "Electric",
+            backWood: "Maple",
+            topWood: "Cedar",
+            price: "$4685",
+        },
+        {
+            serialNumber: 2,
+            builder: "PRS",
+            model: "Model 26",
+            type: "Electric",
+            backWood: "Cocobolo",
+            topWood: "Brazilian Rosewood",
+            price: "$2260",
+        },
+        {
+            serialNumber: 3,
+            builder: "Fender",
+            model: "Model 12",
+            type: "Acoustic",
+            backWood: "Cedar",
+            topWood: "Indian Rosewood",
+            price: "$800",
+        },
+        {
+            serialNumber: 4,
+            builder: "Taylor",
+            model: "Model 96",
+            type: "Acoustic",
+            backWood: "Brazilian Rosewood",
+            topWood: "Mahogany",
+            price: "$1779",
+        },
+        {
+            serialNumber: 5,
+            builder: "Collings",
+            model: "Model 82",
+            type: "Electric",
+            backWood: "Adirondack",
+            topWood: "Maple",
+            price: "$8000",
+        },
+    ];
+
+    function search() {
+        event.preventDefault();
+
+        let builder = document.getElementById("builder").value.toLowerCase();
+        let model = document.getElementById("model").value.toLowerCase();
+        let type = document.getElementById("type").value.toLowerCase();
+        let backWood = document.getElementById("backWood").value.toLowerCase();
+        let topWood = document.getElementById("topWood").value.toLowerCase();
+
+        let table = document.getElementById("searchResult");
+        table.innerHTML = "";
+
+        for (let guitar of guitars) {
+            if (
+                (!builder || guitar.builder.toLowerCase().includes(builder)) &&
+                (!model || guitar.model.toLowerCase().includes(model)) &&
+                (!type || guitar.type.toLowerCase().includes(type)) &&
+                (!backWood || guitar.backWood.toLowerCase().includes(backWood)) &&
+                (!topWood || guitar.topWood.toLowerCase().includes(topWood))
+            ) {
+                let row = document.createElement("tr");
+                row.innerHTML = `
+                        <td>${guitar.serialNumber}</td>
+                        <td>${guitar.builder}</td>
+                        <td>${guitar.model}</td>
+                        <td>${guitar.type}</td>
+                        <td>${guitar.backWood}</td>
+                        <td>${guitar.topWood}</td>
+                        <td>${guitar.price}</td>
+                    `;
+                table.appendChild(row);
+            }
+        }
+    }
+</script>
+</body>
+</body>
+</html>
