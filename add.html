@@ -76,37 +76,37 @@
 <form id="guitarForm">
     <div class="Input">
         <label>Serial number:</label>
-        <input type="text" class="serialNumber" name="serialNumber" />
+        <input type="text" id="serialNumber" name="serialNumber" />
     </div>
 
     <div class="Input">
         <label>Price:</label>
-        <input type="text" class="price" name="price" />
+        <input type="text" id="price" name="price" />
     </div>
 
     <div class="Input">
         <label>Builder:</label>
-        <input type="text" class="builder" name="builder" />
+        <input type="text" id="builder" name="builder" />
     </div>
 
     <div class="Input">
         <label>Model:</label>
-        <input type="text" class="model" name="model" />
+        <input type="text" id="model" name="model" />
     </div>
 
     <div class="Input">
         <label>Type:</label>
-        <input type="text" class="type" name="type" />
+        <input type="text" id="type" name="type" />
     </div>
 
     <div class="Input">
         <label>Back wood:</label>
-        <input type="text" class="backWood" name="backWood" />
+        <input type="text" id="backWood" name="backWood" />
     </div>
 
     <div class="Input">
         <label>Top wood:</label>
-        <input type="text" class="topWood" name="topWood" />
+        <input type="text" id="topWood" name="topWood" />
     </div>
 
     <button type="button" onclick="addTheGuitar()">Add the guitar</button>
@@ -114,16 +114,39 @@
 
 <script>
     function addTheGuitar() {
-        var guitar = {
-            serialNumber: document.querySelector(".serialNumber").value,
-            price: document.querySelector(".price").value,
-            builder: document.querySelector(".builder").value,
-            model: document.querySelector(".model").value,
-            type: document.querySelector(".type").value,
-            backWood: document.querySelector(".backWood").value,
-            topWood: document.querySelector(".topWood").value,
-        };
-        alert("Guitar added: " + JSON.stringify(guitar));
+        const serialNumber = document.getElementById('serialNumber').value;
+        const price = document.getElementById('price').value;
+        const builder = document.getElementById('builder').value;
+        const model = document.getElementById('model').value;
+        const type = document.getElementById('type').value;
+        const backWood = document.getElementById('backWood').value;
+        const topWood = document.getElementById('topWood').value;
+
+
+        if (!serialNumber || !price || !builder || !model || !type || !backWood || !topWood) {
+            alert('Please enter a value for each field.');
+            return;
+        }
+
+
+        const guitar = { serialNumber, price: parseFloat(price), builder, model, type, backWood, topWood };
+
+        fetch('https://backend-guitar.onrender.com/inventory/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(guitar),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                alert("Guitar added successfully!");
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert("Error adding guitar");
+            });
     }
 </script>
 </body>

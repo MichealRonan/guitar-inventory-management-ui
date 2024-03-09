@@ -118,87 +118,51 @@
 </table>
 
 <script>
-    let guitars = [
-        {
-            serialNumber: 1,
-            builder: "Ryan",
-            model: "Model22",
-            type: "Electric",
-            backWood: "Maple",
-            topWood: "Cedar",
-            price: "$4685",
-        },
-        {
-            serialNumber: 2,
-            builder: "PRS",
-            model: "Model 26",
-            type: "Electric",
-            backWood: "Cocobolo",
-            topWood: "Brazilian Rosewood",
-            price: "$2260",
-        },
-        {
-            serialNumber: 3,
-            builder: "Fender",
-            model: "Model 12",
-            type: "Acoustic",
-            backWood: "Cedar",
-            topWood: "Indian Rosewood",
-            price: "$800",
-        },
-        {
-            serialNumber: 4,
-            builder: "Taylor",
-            model: "Model 96",
-            type: "Acoustic",
-            backWood: "Brazilian Rosewood",
-            topWood: "Mahogany",
-            price: "$1779",
-        },
-        {
-            serialNumber: 5,
-            builder: "Collings",
-            model: "Model 82",
-            type: "Electric",
-            backWood: "Adirondack",
-            topWood: "Maple",
-            price: "$8000",
-        },
-    ];
-
     function search() {
-        event.preventDefault();
+        const serialNumber = document.getElementById('serialNumber').value;
+        const price = document.getElementById('price').value;
+        const builder = document.getElementById('builder').value;
+        const model = document.getElementById('model').value;
+        const type = document.getElementById('type').value;
+        const backWood = document.getElementById('backWood').value;
+        const topWood = document.getElementById('topWood').value;
 
-        let builder = document.getElementById("builder").value.toLowerCase();
-        let model = document.getElementById("model").value.toLowerCase();
-        let type = document.getElementById("type").value.toLowerCase();
-        let backWood = document.getElementById("backWood").value.toLowerCase();
-        let topWood = document.getElementById("topWood").value.toLowerCase();
 
-        let table = document.getElementById("searchResult");
-        table.innerHTML = "";
+        let query = `/inventory/search?`;
+        query += serialNumber ? `serialNumber=${encodeURIComponent(serialNumber)}&` : '';
+        query += price ? `price=${encodeURIComponent(price)}&` : '';
+        query += builder ? `builder=${encodeURIComponent(builder)}&` : '';
+        query += model ? `model=${encodeURIComponent(model)}&` : '';
+        query += type ? `type=${encodeURIComponent(type)}&` : '';
+        query += backWood ? `backWood=${encodeURIComponent(backWood)}&` : '';
+        query += topWood ? `topWood=${encodeURIComponent(topWood)}` : '';
 
-        for (let guitar of guitars) {
-            if (
-                (!builder || guitar.builder.toLowerCase().includes(builder)) &&
-                (!model || guitar.model.toLowerCase().includes(model)) &&
-                (!type || guitar.type.toLowerCase().includes(type)) &&
-                (!backWood || guitar.backWood.toLowerCase().includes(backWood)) &&
-                (!topWood || guitar.topWood.toLowerCase().includes(topWood))
-            ) {
-                let row = document.createElement("tr");
-                row.innerHTML = `
-                        <td>${guitar.serialNumber}</td>
-                        <td>${guitar.builder}</td>
-                        <td>${guitar.model}</td>
-                        <td>${guitar.type}</td>
-                        <td>${guitar.backWood}</td>
-                        <td>${guitar.topWood}</td>
-                        <td>${guitar.price}</td>
-                    `;
-                table.appendChild(row);
-            }
-        }
+        query = query.endsWith('&') ? query.slice(0, -1) : query;
+
+        fetch(query)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(guitars => {
+                const tableBody = document.getElementById('guitarsTableBody');
+                tableBody.innerHTML = '';
+                guitars.forEach(guitar => {
+                    const row = tableBody.insertRow();
+                    row.insertCell(0).innerText = guitar.serialNumber;
+                    row.insertCell(1).innerText = guitar.price;
+                    row.insertCell(2).innerText = guitar.builder;
+                    row.insertCell(3).innerText = guitar.model;
+                    row.insertCell(4).innerText = guitar.type;
+                    row.insertCell(5).innerText = guitar.backWood;
+                    row.insertCell(6).innerText = guitar.topWood;
+                });
+            })
+            .catch(error => {
+                alert('Something went wrong.');
+            });
     }
 </script>
 </body>
